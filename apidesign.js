@@ -32,7 +32,6 @@ app.get('/todos', authMiddleware, async function (req, res) {
   }
 });
 
-
 app.post('/todos',authMiddleware, async function(req,res){
   try{
     const {title, description }= req.body;
