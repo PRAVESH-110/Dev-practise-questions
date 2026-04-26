@@ -2,50 +2,31 @@
 const jwt= require('jsonwebtoken')
 const JWT_SECRET = "supersecretkey"; // use env in real apps
 
-// const authMiddleware=(req, res, next)=>{
-//     try{
-//         const authheader= req.headers.authorization;
+const authMiddleware=(req, res, next)=>{
+    try{
+        const authheader= req.headers.authorization;
 
-//         if (!authheader || !authheader.startsWith("Bearer ")){
-//             res.status(400).json({
-//                 message:"authorization header incorrect"
-//             })
-//         }
+        if (!authheader || !authheader.startsWith("Bearer ")){
+            res.status(400).json({
+                message:"authorization header incorrect"
+            })
+        }
 
-//         const token= authheader.split(" ")[1];
+        const token= authheader.split(" ")[1];
 
-//         const decoded= jwt.verify(token, JWT_SECRET);
+        const decoded= jwt.verify(token, JWT_SECRET);
 
-//         req.user= decoded; //user thats sending the request
+        req.user= decoded; //decode the user object to be used in other places, routes etc
 
-//         next();
+        next();
 
-//     }
-//     catch(err){
-//         res.status(400).json({
-//             message: "failed to verify"
-//         })
-//     }
-
-    
-// }
-
-const authMiddleware =async (req,res,next)=>{
-    const authHeader= req.headers.authorization;
-
-    if(!authHeader || !authHeader.startsWith("Bearer")){
+    }
+    catch(err){
         res.status(400).json({
-            message:"Incorrect authHeader"
+            message: "failed to verify"
         })
     }
 
-    const token= authHeader.split(" ")[1];
-
-    const decoded= jwt.verify(token, JWT_SECRET );
-
-    req.user= decoded.id;
-
-    res.status(200).json({
-        message:"Authorized",
-    })
+    
 }
+
