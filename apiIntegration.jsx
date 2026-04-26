@@ -6,57 +6,70 @@
 // •	Network is slow
 // •	API returns empty list
 
+import React, { useState, useEffect } from "react";
 
-import React, {useState, useEffect} from React;
+function App() {
+  const [loading, setLoading] = useState(false);
+  const [userdata, setUserdata] = useState([]);
+  const [error, setError] = useState(null);
 
-function App(){
+  const fetchUserlist = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
 
-    const[loading,setLoading]= useState(false);
-    const [userdata, setUserdata]= useState([])
-    const [error,setError]=useState();
-    const[success, setSuccess]= useState(false);
+      // Handle API 500
+      if (!res.ok) {
+        throw new Error("Server error");
+      }
 
+      const data = await res.json();
 
-    const fetchUserlist= async()=>{
-        try{
-            setLoading(true)
-            const data= await fetch("api url")
-            const response= await data.json();
-            setUserdata(response);
-
-            if(response.ok){
-        setSuccess(true);
-        setLoading(false);
+      setUserdata(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-        }
-        catch(err){
-            setError(true);
-            console.error("failed to fetch error")
-        }
+  };
 
+  // Optional: auto-fetch on mount
+  useEffect(() => {
+    fetchUserlist();
+  }, []);
 
-    return(
+  return (
+    <div>
+      <button onClick={fetchUserlist}>Retry</button>
+
+      {/* Loading */}
+      {loading && <h1>Loading...</h1>}
+
+      {/* Error */}
+      {error && (
         <div>
-            <button onClick={fetchUserlist}>
-                Fetch data
-            </button>
-
-            <div>
-                {loading ? (
-                    <div><h1>Loading</h1></div> 
-                ):
-                <div>
-                    {userdata.map(prev=>(
-                        <li key={prev.id}>
-                            {prev.userName}
-                        </li>
-                    ))}
-                </div>}
-            </div>
-
+          <p style={{ color: "red" }}>{error}</p>
+          <button onClick={fetchUserlist}>Retry</button>
         </div>
-    )
+      )}
+
+      {/* Empty state */}
+      {!loading && !error && userdata.length === 0 && (
+        <p>No users found</p>
+      )}
+
+      {/* Success */}
+      {!loading && !error && userdata.length > 0 && (
+        <ul>
+          {userdata.map(user => (
+            <li key={user.id}>{user.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
-}
+
 export default App;
