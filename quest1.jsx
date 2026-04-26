@@ -1,68 +1,60 @@
-import React, {useState} from "react";
-export default function App(){
-    const[todos, setTodos]=useState([]);
+import React, { useState } from "react";
 
-    const addTodos=()=>{
-        const items={
-            id:"1",
-            description:"eat food",
-            status:"pending"
-        }
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState("");
 
-        setTodos(prev=>[...prev,items]);
-    }
+  const addTodo = () => {
+    if (!input.trim()) return;
 
-    const toggleTodos=(id)=>{
-        setTodos(prev=>
-            prev.map(anything=>(
-                anything.id===id ? {...anything, status:!anything.status} : anything
-            )
-        ))
-    }
-    const deleteTodos=()=>{
-        setTodos(prev=>
-            prev.filter(todo=>todo.id !==id) 
-        )
-    }
+    const item = {
+      id: Date.now(),
+      description: input,
+      status: "pending"
+    };
 
-    return(
-        <div>
-            <div className="flex flex-row">
+    setTodos(prev => [...prev, item]);
+    setInput("");
+  };
 
-                <input
-                type="text"
-                placeholder="enter the todo name">
-                </input>
+  const updateTodo = (id) => {
+    setTodos(prev =>
+      prev.map(todo =>
+        todo.id === id
+          ? { ...todo, status: todo.status === "pending" ? "done" : "pending" }
+          : todo
+      )
+    );
+  };
 
-                <button
-                onSubmit={(e)=>e.target.value}
-                onClick={addTodos}
-                >Add</button>
-            </div>
+  const deleteTodo = (id) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  };
 
-           <div className="flex flex-row">
-            <ul>
-                {items.map(todonames=>(
-                    <li key={todonames}>
-                        {todonames}
-                    </li>
-                ))}
-            </ul>
+  return (
+    <div>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter todo name"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
 
-            <button
-            onSubmit={(e)=>e.target.value}
-            onClick={toggleTodos}>
-                Select
-            </button>
-            <button
-            onSubmit={(e)=>e.target.value}
-            onClick={deleteTodos}>
-                delete
-            </button>
-            </div>
-        </div>
-    )
+        <button onClick={addTodo}>Add Todo</button>
+      </div>
+
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            {todo.description} - {todo.status}
+            <button onClick={() => updateTodo(todo.id)}>Toggle</button>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-
-
+export default App;
