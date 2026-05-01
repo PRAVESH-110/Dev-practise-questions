@@ -7,12 +7,52 @@ app.use(express.json());
 
 const users=[];
 
-router.get('/signin',async function(req,res){
+
+router.post('/user',async function(req,res){
+  try{
+    const {email, password}= req.body;
+
+  if(!email || !password){
+    res.status(400).json({
+      message:"Enter valid credentials"
+    })
+  }
+  const userId= user._id;
+  const existingUser= await User.findOne({userId});
+
+  if(existingUser){
+    res.status(403).json({
+      message:"Forbidden"
+    })
+  }
+
+  const hashedPass= await bcrypt.hash(password,10)
+
+  const newUser= await User.create({
+    email,
+    password:hashedPass
+  })
+
+  res.status(201).json({
+    message:"New user creates succesfully",
+    user
+  })
+  }
+
+  catch(err){
+    res.status(400).json({
+      message:"Failed to create user"
+    })
+  }
+})
+
+
+router.post('/signin',async function(req,res){
   try{
     const{email, password}= req.body;
 
   if(!email || !password){
-    res.status(400).json({
+    return res.status(400).json({
       message:"enter all credentials"
     })
   }
@@ -25,19 +65,19 @@ router.get('/signin',async function(req,res){
     })
   }
 
-  const comparepass= bcrypt.compare(password, existinguser.password)
+  const comparepass= await bcrypt.compare(password, existinguser.password);
 
-  const token = jwt.sign(
-    { userId: existingUser._id },
-    JWT_SECRET
-);  
-
-  res.status(200).json({
+  if(comparepass){
+    const token= jwt.sign(
+      { email: existingUser.email, id: existingUser._id },
+      JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    res.status(200).json({
     message:"succesfull",
     token
   })
-
-  
+  }
   }
   catch(err){
     res.status(401).json({
