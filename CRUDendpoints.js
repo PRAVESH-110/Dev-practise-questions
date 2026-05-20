@@ -46,7 +46,7 @@ app.get("/api/users", async (req, res) => {
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const users = await User.find()
+    const users = await User.find({})
       .skip(skip)
       .limit(limit)
       .select("-password");

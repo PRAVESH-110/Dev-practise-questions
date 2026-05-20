@@ -13,6 +13,8 @@ models-> user.js (to store user info) and post.js (post info)
 
 const userSchema= new mongoose.schema({
     fname:{
+      type:String,
+      required: true,
 
     },
     lname:{

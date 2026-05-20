@@ -26,7 +26,7 @@ app.get('/users/:userId',async function(req,res){
         res.status(404).json({message:"not found"})
     }
 
-    const posts= await Post.find({userId});
+    const posts= await Post.find({author:userId}); //since posts schema'll have something like author:obejctId
     if(!posts){
         res.status(404).json({message:"not found"})
     }
@@ -34,6 +34,5 @@ app.get('/users/:userId',async function(req,res){
     user,
     posts
   });
-
 
 })

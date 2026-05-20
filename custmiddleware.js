@@ -1,3 +1,5 @@
+//middleware that logs failures 
+
 const loggerMiddleware = (req, res, next) => {
   const start = Date.now();
 

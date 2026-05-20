@@ -6,10 +6,10 @@ db.users.updateOne(
 )
 
 //Q2Find users whose name contains "john" or "John"
-db.users.find({name:{$regex:"john",$options:"i"}}, )
+db.users.find({name:{$regex:"john",$options:"i"}}, ) //^ and $ makes it exact match
 
 //Q3 Add new skill to user
-db.users.insertOne(
+db.users.updateOne(
     {user:user._id}, //finding the user ote update by id first
     {$push:{skills:"MongoDB"}}
 )
@@ -17,14 +17,15 @@ db.users.insertOne(
 
 //Q4Remove a skill
 db.users.updateOne(
-    {user:user._id},
+    {_id:user._id},
     {$pull:{skills:"MongoDB"}}
 )
 
 //Q5Pagination:page = 2, limit = 10
+const page=2, limit=10;
 db.users.find({users}
-    .page(2)
-    .limit(10)
+    .skip((page-1)*limit)
+    .limit(limit)
 )
 
 //Q6Find users older than 18 AND from Jaipur
@@ -34,6 +35,12 @@ db.users.find({
         {city:{$regex:"^jaipur$", $options:"i"}}
     ]
 })
+//or simply
+db.users.find(
+    {age:{$gte: 18}},
+    {city:"Jaipur"}
+)
+
 
 //Q7Count users per city
 db.users.find(
@@ -41,4 +48,7 @@ db.users.find(
 )
 
 //Q8Sort users by age descending
-db.users.find({users}).sort({age:-1})
+db.users.find({}).sort({age:-1})
+
+//9 First sort by age: If same age → sort by name
+db.users.sort({}).sort({age:1, name:1})
