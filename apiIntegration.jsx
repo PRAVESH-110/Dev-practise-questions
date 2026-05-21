@@ -27,7 +27,7 @@ function App() {
 
       const data = await res.json();
 
-      setUserdata(data);
+      setUserdata(data);x
     } catch (err) {
       setError(err.message);
     } finally {
