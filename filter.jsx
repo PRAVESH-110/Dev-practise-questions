@@ -25,4 +25,3 @@ const addAdult=()=>{
     isAdult: prev.age>=18
   }))
 }
-

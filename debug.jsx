@@ -14,7 +14,7 @@ function Counter() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setCount(count + 1);
+    setCount(prev=>prev+1);
   }, []);
 
   return <div>{count}</div>;

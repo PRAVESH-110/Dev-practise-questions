@@ -12,7 +12,7 @@ app.use(express.json());
 
 //considering User as the collection that 
 app.get('/users/:userId',async function(req,res){
-    const userId= req.params;
+    const userId= req.params.userId;
 
     if(!userId){
         res.status(400).json({
@@ -20,7 +20,8 @@ app.get('/users/:userId',async function(req,res){
         })
     }
 
-    const user= await User.findById({userId});
+
+    const user= await Post.find({userId});
 
     if(!user){
         res.status(404).json({message:"not found"})
