@@ -29,12 +29,14 @@ db.users.find({users}
 )
 
 //Q6Find users older than 18 AND from Jaipur
-db.users.find({
-    $and:[
-        {age:{$gte: 18}},
-        {city:{$regex:"^jaipur$", $options:"i"}}
-    ]
-})
+db.users.find(
+    // $and:[
+    //     {age:{$gte: 18}},
+    //     {city:{$regex:"^jaipur$", $options:"i"}}
+    // ]
+    {city:"Jaipur"},
+    {age:{$gte:18}}
+)
 //or simply
 db.users.find(
     {age:{$gte: 18}},
@@ -43,7 +45,7 @@ db.users.find(
 
 
 //Q7Count users per city
-db.users.find(
+db.users.countOne(
     {city}
 )
 
