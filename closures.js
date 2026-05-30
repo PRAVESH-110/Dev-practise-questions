@@ -12,7 +12,8 @@ const counter2= createCounter();
 
 console.log(counter()); // 1
 console.log(counter()); // 2
-console.log(counter2()); // 1 since in others a reference is created but in case of coutner 2 count is old and no link
+console.log(counter2()); // 1 since in others a reference is created but in case of
+// coutner 2 count is old and no link to old counter value
 console.log(counter()); // 3
 
 
@@ -46,3 +47,16 @@ const errorLogger = createLogger("ERROR");
 
 errorLogger("DB Down");
 //ERROR: DB Down
+
+
+//output of:
+for(var i=1;i<=3;i++){
+
+  setTimeout(()=>{
+    console.log(i);
+  },1000);
+
+}
+//4
+//4
+//4
