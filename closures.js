@@ -30,6 +30,7 @@ function test() {
   printName();
 }
 
+//calling the function
 test();
 //Global-- since the function remember the scope of its creation not calling (lexical)
 
