@@ -16,7 +16,7 @@ console.log([1] == true);
 
 null == undefined    // true
 
-NaN == NaN           // false
+NaN == NaN           // false  
 
 {} == {}             // false
 [] == []             // false
