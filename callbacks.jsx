@@ -32,4 +32,4 @@ getUser(id, (user) => {
     });
   });
 });
-//messy code that why
+//messy code that why we use promises in order to make the code readable and easily manage async tasks

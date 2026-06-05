@@ -6,7 +6,7 @@ db.users.updateOne(
 )
 
 //Q2Find users whose name contains "john" or "John"
-db.users.findOne({name:{$regex:"john",$options:"i"}}, ) //^ and $ makes it exact match
+db.users.find({name:{$regex:"john",$options:"i"}}, ) //^ and $ makes it exact match
 
 //Q3 Add new skill to user
 db.users.updateOne(
