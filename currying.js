@@ -1,4 +1,4 @@
-//decompose the function to take single/ double args accordign to use
+//decompose the function to take single/ double args according to use
 
 //using bind
 let multiply= function(x,y){
