@@ -11,7 +11,7 @@ app.get('/todos', authMiddleware, async function (req, res) {
 
     const userId = req.user._id;
 
-    const todos = await Todo.find({ userId })
+    const todos = await Todo.findMany({ userId })
 
       .sort({ createdAt: -1 }) //sort by latest creation
       .skip((page - 1) * limit) //tells how many to skip (eg: page=2, skip =10, show next 10)

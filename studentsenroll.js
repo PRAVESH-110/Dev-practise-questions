@@ -27,7 +27,7 @@ app.post('/enroll-student/:id',async function(req,res){
     try{
         const {studentId}= req.params;
 
-        //to prevent duplicate value creation (reace conditions if other is applying simult)
+        //to prevent duplicate value creation (reace conditions if other is applying simultaneoudly)
         const existingStudent= await courseSchema.findAndUpdate({
         _id: courseId,
         enrolledCount: { $lt: 50 }, // capacity check
@@ -39,6 +39,7 @@ app.post('/enroll-student/:id',async function(req,res){
         $inc: { enrolledCount: 1 }
       },
       { new: true }
+      //{new:true} will return the new document record
     );
     if (!updatedCourse) {
       return res.status(400).json({

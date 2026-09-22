@@ -91,13 +91,17 @@ app.delete("/api/users", authMiddleware, async function (req, res) {
   try {
     const userId = req.userId; // set by authMiddleware
 
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const user = await User.findById(userId);
 
-    if (!deletedUser) {
+    if (!user) {
       return res.status(404).json({
         message: "User not found"
       });
     }
+
+    const deletedUser= await user.UpdateOne({
+      $set:{status:Inactive}
+    })
 
     res.status(200).json({
       message: "User deleted successfully"

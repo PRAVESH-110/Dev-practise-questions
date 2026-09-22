@@ -4,10 +4,11 @@ const express= require ('express')
 app.get('/api/users',async function(req,res){
     try{
         const {query}= req.query;
-    if(!query){
+        e.preventDefault();
+        if(!query){
         return res.status(400).json({
         message: "Search query is required"
-      });
+        });
     }   
     
     const users = await User.find({
